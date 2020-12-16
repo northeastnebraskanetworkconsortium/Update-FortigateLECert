@@ -25,17 +25,26 @@ The script is designed to handle the renewals automatically, so you need to requ
 ```powershell
 New-PACertificate -Domain sts.example.com -AcceptTOS -Contact me@example.com -DnsPlugin Cloudflare -PluginArgs @{CFAuthEmail="me@example.com";CFAuthKey='xxx'}
 
-# After the above completes, run the following
-$MainDomain = 'fg.example.com'
-
 # the '-UseExisting' flag is useful when the certifcate is not yet expired
-./Update-FortigateLECert.ps1 -MainDomain $MainDomain -UseExisting
+./Update-FortigateLECert.ps1 -MainDomain fg.example.com -UseExisting
 ```
+### Create Secure Password
+Powershell allows you to create a secure string that can only be decoded on the same machine it was encoded on.  This provides a little more security than just saving the password in plain text on the device.  This only needs to be done once.
+
+```powershell
+Read-Host "Enter Password" -AsSecureString | ConvertFrom-SecureString | Out-File ".\password.txt"
+```
+
 ### Normal Use
-To normally run it:
+To normally run it, where:
+FDQN or IP - needs to be either the IP address of the Fortigate or a resolvable FQDN
+username - needs to be a user with administrative-level access
+.\password.txt - needs to reference the same file created earlier
+fg.example.com - needs to be the same FQDN that the certificate is created for
 
 ```powershell
 ./Update-FortigateLECert.ps1 -MainDomain $MainDomain
+.\Update-FortigateLECert.ps1 -Fortigate <FQDN or IP> -Credential $(New-Object pscredential 'username',(gc .\password.txt | ConvertTo-SecureString)) -MainDomain fg.example.com"
 ```
 
 ### Force Renewals
@@ -43,7 +52,7 @@ To normally run it:
 You can force a renewal with the '-ForceRenew' switch:
 
 ```powershell
-./Update-FortigateLECert.ps1 -MainDomain $MainDomain -ForceRenew
+./Update-FortigateLECert.ps1 -MainDomain fg.example.com -ForceRenew
 ```
 ### Other Notes
 
