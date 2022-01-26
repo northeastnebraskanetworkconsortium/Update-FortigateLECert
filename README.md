@@ -16,7 +16,7 @@ This script is designed to run on PowerShell 5.1 or greater.  There have been is
 
 Run command to install Posh-ACME:
 ```powershell
-Install-Module -Name Posh-ACME -Scope AllUsers -AcceptLicense
+Install-Module -Name Posh-ACME -Scope AllUsers
 ```
 
 #### Request initial certificate
