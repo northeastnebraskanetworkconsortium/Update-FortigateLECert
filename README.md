@@ -43,7 +43,7 @@ username - needs to be a user with administrative-level access
 fg.example.com - needs to be the same FQDN that the certificate is created for
 
 ```powershell
-./Update-FortigateLECert.ps1 -MainDomain $MainDomain
+.\Update-FortigateLECert.ps1 -MainDomain $MainDomain
 .\Update-FortigateLECert.ps1 -Fortigate <FQDN or IP> -Credential $(New-Object pscredential 'username',(gc .\password.txt | ConvertTo-SecureString)) -MainDomain fg.example.com"
 ```
 
