@@ -77,7 +77,7 @@ function Connect-Fortigate {
         throw "Failed to authenticate to Fortigate with error: `n`t$_"
     }
     Write-Verbose "Authentication successful!" | Out-File $LogFile -Append
-    $csrftoken = ($authRequest.Headers['Set-Cookie'] | where {$_ -like "ccsrftoken=*"}).split('"')[1]
+    $csrftoken = ($authRequest.Headers['Set-Cookie'].split(";") | where {$_ -like "*ccsrftoken=*"}).split('"')[1]
 
     Set-Variable -Scope Global -Name "FgtServer" -Value $Fortigate
     Set-Variable -Scope Global -Name "FgtSession" -Value $session
